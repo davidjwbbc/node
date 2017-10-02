@@ -128,6 +128,8 @@ void UDPWrap::Initialize(Local<Object> target,
                       GetSockOrPeerName<UDPWrap, uv_udp_getsockname>);
   env->SetProtoMethod(t, "addMembership", AddMembership);
   env->SetProtoMethod(t, "dropMembership", DropMembership);
+  env->SetProtoMethod(t, "addSourceSpecificMembership", AddSourceSpecificMembership);
+  env->SetProtoMethod(t, "dropSourceSpecificMembership", DropSourceSpecificMembership);
   env->SetProtoMethod(t, "setMulticastInterface", SetMulticastInterface);
   env->SetProtoMethod(t, "setMulticastTTL", SetMulticastTTL);
   env->SetProtoMethod(t, "setMulticastLoopback", SetMulticastLoopback);
@@ -322,6 +324,41 @@ void UDPWrap::AddMembership(const FunctionCallbackInfo<Value>& args) {
 
 void UDPWrap::DropMembership(const FunctionCallbackInfo<Value>& args) {
   SetMembership(args, UV_LEAVE_GROUP);
+}
+
+void UDPWrap::SetSourceMembership(const FunctionCallbackInfo<Value>& args,
+                            uv_membership membership) {
+  UDPWrap* wrap;
+  ASSIGN_OR_RETURN_UNWRAP(&wrap,
+                          args.Holder(),
+                          args.GetReturnValue().Set(UV_EBADF));
+
+  CHECK_EQ(args.Length(), 3);
+
+  node::Utf8Value sourceAddress(args.GetIsolate(), args[0]);
+  node::Utf8Value groupAddress(args.GetIsolate(), args[1]);
+  node::Utf8Value iface(args.GetIsolate(), args[2]);
+
+  const char* iface_cstr = *iface;
+  if (args[2]->IsUndefined() || args[2]->IsNull()) {
+      iface_cstr = nullptr;
+  }
+
+  int err = uv_udp_set_source_membership(&wrap->handle_,
+                                  *groupAddress,
+                                  iface_cstr,
+                                  *sourceAddress,
+                                  membership);
+  args.GetReturnValue().Set(err);
+}
+
+void UDPWrap::AddSourceSpecificMembership(const FunctionCallbackInfo<Value>& args) {
+  SetSourceMembership(args, UV_JOIN_GROUP);
+}
+
+
+void UDPWrap::DropSourceSpecificMembership(const FunctionCallbackInfo<Value>& args) {
+  SetSourceMembership(args, UV_LEAVE_GROUP);
 }
 
 

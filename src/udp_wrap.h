@@ -52,6 +52,8 @@ class UDPWrap: public HandleWrap {
   static void RecvStop(const v8::FunctionCallbackInfo<v8::Value>& args);
   static void AddMembership(const v8::FunctionCallbackInfo<v8::Value>& args);
   static void DropMembership(const v8::FunctionCallbackInfo<v8::Value>& args);
+  static void AddSourceSpecificMembership(const v8::FunctionCallbackInfo<v8::Value>& args);
+  static void DropSourceSpecificMembership(const v8::FunctionCallbackInfo<v8::Value>& args);
   static void SetMulticastInterface(
       const v8::FunctionCallbackInfo<v8::Value>& args);
   static void SetMulticastTTL(const v8::FunctionCallbackInfo<v8::Value>& args);
@@ -82,6 +84,8 @@ class UDPWrap: public HandleWrap {
   static void DoSend(const v8::FunctionCallbackInfo<v8::Value>& args,
                      int family);
   static void SetMembership(const v8::FunctionCallbackInfo<v8::Value>& args,
+                            uv_membership membership);
+  static void SetSourceMembership(const v8::FunctionCallbackInfo<v8::Value>& args,
                             uv_membership membership);
 
   static void OnAlloc(uv_handle_t* handle,
