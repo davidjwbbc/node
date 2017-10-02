@@ -128,8 +128,10 @@ void UDPWrap::Initialize(Local<Object> target,
                       GetSockOrPeerName<UDPWrap, uv_udp_getsockname>);
   env->SetProtoMethod(t, "addMembership", AddMembership);
   env->SetProtoMethod(t, "dropMembership", DropMembership);
-  env->SetProtoMethod(t, "addSourceSpecificMembership", AddSourceSpecificMembership);
-  env->SetProtoMethod(t, "dropSourceSpecificMembership", DropSourceSpecificMembership);
+  env->SetProtoMethod(t, "addSourceSpecificMembership",
+                      AddSourceSpecificMembership);
+  env->SetProtoMethod(t, "dropSourceSpecificMembership",
+                      DropSourceSpecificMembership);
   env->SetProtoMethod(t, "setMulticastInterface", SetMulticastInterface);
   env->SetProtoMethod(t, "setMulticastTTL", SetMulticastTTL);
   env->SetProtoMethod(t, "setMulticastLoopback", SetMulticastLoopback);
@@ -352,12 +354,14 @@ void UDPWrap::SetSourceMembership(const FunctionCallbackInfo<Value>& args,
   args.GetReturnValue().Set(err);
 }
 
-void UDPWrap::AddSourceSpecificMembership(const FunctionCallbackInfo<Value>& args) {
+void UDPWrap::AddSourceSpecificMembership(
+  const FunctionCallbackInfo<Value>& args) {
   SetSourceMembership(args, UV_JOIN_GROUP);
 }
 
 
-void UDPWrap::DropSourceSpecificMembership(const FunctionCallbackInfo<Value>& args) {
+void UDPWrap::DropSourceSpecificMembership(
+  const FunctionCallbackInfo<Value>& args) {
   SetSourceMembership(args, UV_LEAVE_GROUP);
 }
 
