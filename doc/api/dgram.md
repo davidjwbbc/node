@@ -97,7 +97,7 @@ available interface, call `addMembership` multiple times, once per interface.
 
 ### socket.addSourceSpecificMembership(sourceAddress, groupAddress[, multicastInterface])
 <!-- YAML
-added: vX.Y.Z
+added: REPLACEME
 -->
 * `sourceAddress` {string}
 * `groupAddress` {string}
@@ -243,7 +243,7 @@ drop membership on all valid interfaces.
 
 ### socket.dropSourceSpecificMembership(sourceAddress, groupAddress[, multicastInterface])
 <!-- YAML
-added: vX.Y.Z
+added: REPLACEME
 -->
 
 * `sourceAddress` {string}
