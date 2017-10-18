@@ -43,7 +43,7 @@ let listening, sendSocket, done, timer, dead;
 
 let sourceAddress = null;
 
-// Take the first non-internal interface as the IPv4 address for binding.
+// Take the first non-internal interface as the IPv6 address for binding.
 // Ideally, this should check favor internal/private interfaces.
 get_sourceAddress: for (const name in networkInterfaces) {
   const interfaces = networkInterfaces[name];
