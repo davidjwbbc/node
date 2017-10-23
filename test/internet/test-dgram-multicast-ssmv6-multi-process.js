@@ -59,7 +59,7 @@ function launchChildProcess() {
     if (dead === listeners) {
       console.error('[PARENT] All workers have died.');
       console.error('[PARENT] Fail');
-      process.exit(1);
+      assert.fail();
     }
   });
 
@@ -138,7 +138,7 @@ if (process.argv[2] !== 'child') {
 
     killChildren(workers);
 
-    process.exit(1);
+    assert.fail();
   }, TIMEOUT);
 
   // Launch child processes.
