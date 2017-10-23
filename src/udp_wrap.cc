@@ -337,8 +337,8 @@ void UDPWrap::SetSourceMembership(const FunctionCallbackInfo<Value>& args,
 
   CHECK_EQ(args.Length(), 3);
 
-  node::Utf8Value sourceAddress(args.GetIsolate(), args[0]);
-  node::Utf8Value groupAddress(args.GetIsolate(), args[1]);
+  node::Utf8Value source_address(args.GetIsolate(), args[0]);
+  node::Utf8Value group_address(args.GetIsolate(), args[1]);
 
   const char* iface_cstr = nullptr;
   if (!args[2]->IsUndefined() && !args[2]->IsNull()) {
@@ -346,9 +346,9 @@ void UDPWrap::SetSourceMembership(const FunctionCallbackInfo<Value>& args,
   }
 
   int err = uv_udp_set_source_membership(&wrap->handle_,
-                                         *groupAddress,
+                                         *group_address,
                                          iface_cstr,
-                                         *sourceAddress,
+                                         *source_address,
                                          membership);
   args.GetReturnValue().Set(err);
 }
